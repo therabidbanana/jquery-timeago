@@ -12,8 +12,11 @@
         prepareDynamicDates();
         $("abbr.timeago").timeago();
 
+        $('abbr.countdown').timeago({refreshMillis: 1000, countdownCutoff: 365*24*60*60});
+
         $("#prog_date").text(jQuery.timeago(new Date()));
         $("#prog_string").text(jQuery.timeago("2008-07-17"));
+        
         $("#prog_element").text(jQuery.timeago("2008-07-20"));
       });
 
@@ -63,6 +66,10 @@
       </p>
       <p class="example">
         Ryan was born <abbr class="timeago" title="1978-12-18T17:17:00Z">Dec 18, 1978</abbr>.
+      </p>
+
+      <p class="example">
+        David will be 25 in T<abbr class="countdown" title="2012-06-18T17:17:00Z">Jun 18, 1987</abbr>.
       </p>
 
       <h3>Why?</h3>
