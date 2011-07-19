@@ -31,6 +31,8 @@
     settings: {
       refreshMillis: 60000,
       allowFuture: false,
+      countdownCutoff: false,
+      countupCutoff: false,
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
@@ -51,6 +53,8 @@
       }
     },
     inWords: function(distanceMillis) {
+      var distance_seconds = ~~(distanceMillis / 1000);
+      
       var $l = this.settings.strings;
       var prefix = $l.prefixAgo;
       var suffix = $l.suffixAgo;
@@ -67,6 +71,13 @@
       var hours = minutes / 60;
       var days = hours / 24;
       var years = days / 365;
+
+      if( shouldCountdown(distance_seconds, this.settings) ){
+        return inCountdown(distance_seconds, this.settings);
+      }
+      else if ( shouldCountup(distance_seconds, this.settings)) {
+        return inCountup(distance_seconds, this.settings);
+      }
 
       function substitute(stringOrFunction, number) {
         var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, distanceMillis) : stringOrFunction;
@@ -123,11 +134,55 @@
 
   function refresh() {
     var data = prepareData(this);
+    var $s = $t.settings;
+
     if (!isNaN(data.datetime)) {
       $(this).text(inWords(data.datetime));
     }
     return this;
   }
+
+  function inCountdown(distance_seconds, settings){
+    var clock = distanceClock(distance_seconds, settings);
+    return "-"+clock[0]+":"+clock[1]+":"+clock[2]+"";
+  }
+
+  function inCountup(distance_seconds, settings){
+    var clock = distanceClock(distance_seconds, settings);
+    return "+"+clock[0]+":"+clock[1]+":"+clock[2]+"";
+  }
+
+
+  function distanceClock(distance_seconds, settings){
+    var hours, minutes, seconds, rem;
+    var str_hr, str_min, str_sec;
+    str_hr = str_min = str_sec = "0";
+    rem = Math.abs(distance_seconds);
+    hours = ~~(rem / (60*60));
+    rem = (rem % (60*60));
+    minutes = ~~(rem / 60);
+    rem = (rem % 60);
+    seconds = rem;
+    str_hr = (hours > 9 ? hours.toString() : (str_hr + hours));
+    
+    str_min = (minutes > 9 ? minutes.toString() : (str_min + minutes));
+    str_sec = (seconds > 9 ? seconds.toString() : (str_sec + seconds));
+    return [str_hr, str_min, str_sec];
+  }
+
+
+  function shouldCountdown(distance_seconds, settings){
+    return settings.countdownCutoff &&
+      distance_seconds <= 0 &&
+      Math.abs(distance_seconds) < settings.countdownCutoff;
+  }
+
+  function shouldCountup(distance_seconds, settings){
+    return settings.countupCutoff &&
+      distance_seconds >= 0 &&
+      distance_seconds < settings.countupCutoff;
+  }
+
 
   function prepareData(element) {
     element = $(element);

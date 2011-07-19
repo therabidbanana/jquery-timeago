@@ -22,6 +22,20 @@ function unloadNumbers() {
   jQuery.timeago.settings.strings.numbers = [];
 }
 
+function loadCountdown() {
+  jQuery.timeago.settings.countdownCutoff = 
+    1*24*60*60;
+  jQuery.timeago.settings.countupCutoff = 
+    1*24*60*60;
+
+}
+function unloadCountdown() {
+  jQuery.timeago.settings.countdownCutoff = 
+    false;
+  jQuery.timeago.settings.countupCutoff = 
+    false;
+}
+
 function loadPigLatin() {
   jQuery.timeago.settings.strings = {
     suffixAgo: "ago-hay",
