@@ -213,7 +213,7 @@
       }
 
       function toWords() {
-        var string = $.timeago.inWords(parseInt(this.title, 10) * 1000);
+        var string = $.timeago.inWords(parseInt(this.title, 10) * 1000, $.timeago.settings);
         $(this).text(string);
       }
 
