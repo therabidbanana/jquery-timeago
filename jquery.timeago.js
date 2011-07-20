@@ -123,8 +123,7 @@
     $.each(elements, refresh);
 
     if ($s.refreshMillis > 0) {
-      console.log("Refreshing at " + $s.refreshMillis);
-      intervalId = setInterval(function() { $.each(elements, refresh); }, $s.refreshMillis);
+      setTimeout(function() { $.each(elements, refresh); }, $s.refreshMillis);
     }
     return self;
   };
@@ -133,9 +132,10 @@
     var data = prepareData(this);
     var $s = $t.settings;
 
-    if (!isNaN(data.datetime)) {
+    if (data && !isNaN(data.datetime)) {
       $(this).text(inWords(data.datetime, data.settings));
     }
+    if(data !== null) setTimeout($.proxy(refresh, this), data.settings.refreshMillis);
     return this;
   }
 
@@ -182,9 +182,12 @@
 
 
   function prepareData(element) {
+    if(element === null || typeof element == "undefined"){
+      return null;
+    }
     element = $(element);
     var data = element.data("timeago");
-    if (!data.datetime) {
+    if (data && !data.datetime) {
       data = $.extend(true, {}, data, { datetime: $t.datetime(element) });
       var text = $.trim(element.text());
       element.data("timeago", data)
