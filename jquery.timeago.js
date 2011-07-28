@@ -68,6 +68,9 @@
       var days = hours / 24;
       var years = days / 365;
 
+      
+
+
       if( shouldCountdown(distance_seconds, $s) ){
         return inCountdown(distance_seconds, $s);
       }
@@ -86,8 +89,8 @@
         minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
         minutes < 90 && substitute($l.hour, 1) ||
         hours < 24 && substitute($l.hours, Math.round(hours)) ||
-        hours < 48 && substitute($l.day, 1) ||
-        days < 30 && substitute($l.days, Math.floor(days)) ||
+        hours < 36 && substitute($l.day, 1) ||
+        days < 30 && substitute($l.days, Math.round(days)) ||
         days < 60 && substitute($l.month, 1) ||
         days < 365 && substitute($l.months, Math.floor(days / 30)) ||
         years < 2 && substitute($l.year, 1) ||

@@ -119,6 +119,24 @@
       <li><abbr id="testWording19" class="towords" title="16416000"></abbr> [190 days]</li>
       <li><abbr id="testWording20" class="towords" title="31622400"></abbr> [366 days]</li>
       <li><abbr id="testWording21" class="towords" title="94608000"></abbr> [1095 days]</li>
+      <li><abbr id="testWording22" class="towords" title="-90000"></abbr> [-25 hours]</li>
+      <li><abbr id="testWording23" class="towords" title="-172800"></abbr> [-48 hours]</li>
+      <li><abbr id="testWording24" class="towords" title="-2505600"></abbr> [-696 hours]</li>
+      <li><abbr id="testWording25" class="towords" title="-2592000"></abbr> [-30 days]</li>
+    </ul>
+
+    <h2>Rounding</h2>
+
+    <ul>
+      
+      <li><abbr id="testRounding1" class="towords" title="-126000"></abbr> [-35 hours]</li>
+      <li><abbr id="testRounding2" class="towords" title="-212400"></abbr> [-59 hours]</li>
+      <li><abbr id="testRounding3" class="towords" title="-4032000"></abbr> [-709 hours]</li>
+      <li><abbr id="testRounding4" class="towords" title="169200"></abbr> [47 hours]</li>
+      <li><abbr id="testRounding5" class="towords" title="687600"></abbr> [191 hours]</li>
+
+
+
     </ul>
 
     <h2>Settings</h2>
@@ -131,10 +149,13 @@
       <li><abbr id="testCountdownSettings1" class="tocountdown" title="-120"></abbr> [2 min countdown]</li>
       <li><abbr id="testCountdownSettings2" class="tocountdown" title="-82800"></abbr> [23 hours countdown]</li>
       <li><abbr id="testCountdownSettings3" class="tocountdown" title="-86760"></abbr> [24.1 hours countdown]</li>
+      <li><abbr id="testCountdownSettings4" class="tocountdown" title="-172800"></abbr> [2 days countdown]</li>
+
 
       <li><abbr id="testCountupSettings1" class="tocountdown" title="120"></abbr> [2 min countup]</li>
       <li><abbr id="testCountupSettings2" class="tocountdown" title="82800"></abbr> [23 hours countup]</li>
       <li><abbr id="testCountupSettings3" class="tocountdown" title="86760"></abbr> [24.1 hours countup]</li>
+      <li><abbr id="testCountupSettings4" class="tocountdown" title="172800"></abbr> [2 days countup]</li>
 
 
       <li><abbr id="testYoungOldSettings1" class="toyoungold" title="504576000"></abbr> [5840 days]</li>
@@ -435,6 +456,46 @@
         ok(($("#testWording21").html() === "3 years ago"), "Correctly parsed");
       });
 
+      test("-25 hours", function () {
+        ok(($("#testWording22").html() === "a day from now"), "Correctly parsed");
+      });
+
+      test("-48 hours", function () {
+        ok(($("#testWording23").html() === "2 days from now"), "Correctly parsed");
+      });
+
+      test("-696 hours", function () {
+        ok(($("#testWording24").html() === "29 days from now"), "Correctly parsed");
+      });
+
+      test("-30 days", function () {
+        ok(($("#testWording25").html() === "about a month from now"), "Correctly parsed");
+      });
+
+      module("Rounding");
+
+      test("-35 hours", function () {
+        ok(($("#testRounding1").html() === "a day from now"), "Correctly parsed");
+      });
+
+      test("-59 hours", function () {
+        ok(($("#testRounding2").html() === "2 days from now"), "Correctly parsed");
+      });
+
+      test("-709 hours", function () {
+        ok(($("#testRounding3").html() === "about a month from now"), "Correctly parsed");
+        });
+
+      test("47 hours", function () {
+        ok(($("#testRounding4").html() === "2 days ago"), "Correctly parsed");
+      });
+
+      test("191 hours", function () {
+        ok(($("#testRounding5").html() === "8 days ago"), "Correctly parsed");
+      });
+
+
+
       module("Settings");
 
       test("suffixFromNow", function () {
@@ -527,11 +588,13 @@
         ok($("#testCountdownSettings1").html().match(/^-00:02:00/), "Countdown clock rendered");
         ok($("#testCountdownSettings2").html().match(/^-23:00:00/), "Countdown clock rendered");
         ok($("#testCountdownSettings3").html().match(/^a day from/), "Countdown clock not rendered");
+        ok($("#testCountdownSettings4").html().match(/^2 days from/), "Countdown clock not rendered");
       });
       test("countup", function () {
         ok($("#testCountupSettings1").html().match(/^\+00:02:00/), "Countup clock rendered");
         ok($("#testCountupSettings2").html().match(/^\+23:00:00/), "Countup clock rendered");
         ok($("#testCountupSettings3").html().match(/^a day ago/), "Countup clock not rendered");
+        ok($("#testCountupSettings4").html().match(/^2 days ago/), "Countup clock not rendered");
       });
 
     })(jQuery);
