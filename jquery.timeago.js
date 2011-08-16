@@ -133,12 +133,11 @@
 
   function refresh() {
     var data = prepareData(this);
-    var $s = $t.settings;
 
     if (data && !isNaN(data.datetime)) {
       $(this).text(inWords(data.datetime, data.settings));
+      setTimeout($.proxy(refresh, this), data.settings.refreshMillis);
     }
-    if(data !== null) setTimeout($.proxy(refresh, this), data.settings.refreshMillis);
     return this;
   }
 
@@ -213,3 +212,5 @@
   document.createElement("abbr");
   document.createElement("time");
 }(jQuery));
+
+
