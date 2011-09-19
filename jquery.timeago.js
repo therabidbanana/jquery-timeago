@@ -29,6 +29,8 @@
       allowFuture: false,
       countdownCutoff: false,
       countupCutoff: false,
+      fireThresholds: false,
+      thresholds: [0],
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
@@ -134,7 +136,17 @@
   function refresh() {
     var data = prepareData(this);
 
+    
     if (data && !isNaN(data.datetime)) {
+      var new_distance = distance(data.datetime);
+      if(data.settings.fireThresholds && !isNaN(data.last_distance)){
+        firePassedThresholds(data.last_distance, new_distance, this, data.settings)
+        data.last_distance = new_distance;
+        $(this).data('timeago', data);
+      }
+      else if(data.settings.fireThresholds){
+        data.last_distance = new_distance;
+      }
       $(this).text(inWords(data.datetime, data.settings));
       setTimeout($.proxy(refresh, this), data.settings.refreshMillis);
     }
@@ -198,6 +210,18 @@
       }
     }
     return data;
+  }
+
+  // Last, current == distance in millis
+  // list of thresholds == distance in seconds
+  function firePassedThresholds(last, current, element, settings){
+    $.each(settings.thresholds, function(i, e){
+      var thresh = e*1000;
+      if(last > thresh && current > thresh) return;
+      if(last < thresh && current < thresh) return;
+
+      $(element).trigger('timeago:threshold', e);
+    })
   }
 
   function inWords(date, settings ) {

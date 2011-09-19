@@ -9,9 +9,21 @@ var iso8601 = function (date) {
     + ":" + zeropad(date.getUTCMinutes())
     + ":" + zeropad(date.getUTCSeconds()) + "Z";
 };
+var iso8601_plus_x = function (date, x) {
+  seconds = date.getTime()
+  seconds = seconds + (x*1000);
+  date = new Date(seconds);
+  return date.getUTCFullYear()
+    + "-" + zeropad(date.getUTCMonth()+1)
+    + "-" + zeropad(date.getUTCDate())
+    + "T" + zeropad(date.getUTCHours())
+    + ":" + zeropad(date.getUTCMinutes())
+    + ":" + zeropad(date.getUTCSeconds()) + "Z";
+};
 
 function prepareDynamicDates() {
   $('abbr.loaded').attr("title", iso8601(new Date()));
+  $('abbr.30_second_countdown').attr("title", iso8601_plus_x(new Date(), 30)).text(iso8601_plus_x(new Date(), 30));
   $('abbr.modified').attr("title", iso8601(new Date(document.lastModified)));
 }
 

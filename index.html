@@ -12,7 +12,21 @@
         prepareDynamicDates();
         $("abbr.timeago").timeago();
 
-        $('abbr.countdown').timeago({refreshMillis: 1000, countdownCutoff: 365*24*60*60});
+        $('abbr.countdown').timeago({refreshMillis: 1000, countdownCutoff: 365*24*60*60, fireThresholds: true});
+        $('abbr.countdown').bind('timeago:threshold', function(e, i){
+          if(i == 0){
+            alert('David is now officially 25');
+          }
+        });
+        $('abbr.countdown_thresh').timeago({refreshMillis: 1000, countdownCutoff: 365*24*60*60, fireThresholds: true, thresholds: [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0]});
+        $('abbr.countdown_thresh').bind('timeago:threshold', function(e, i){
+          if(i == 0){
+            console.log('Blastoff!');
+          }
+          else
+            console.log('T'+i);
+        });
+        $('abbr.countup').timeago({refreshMillis: 1000, countupCutoff: 2*60});
 
         $("#prog_date").text(jQuery.timeago(new Date()));
         $("#prog_string").text(jQuery.timeago("2008-07-17"));
@@ -67,9 +81,15 @@
       <p class="example">
         Ryan was born <abbr class="timeago" title="1978-12-18T17:17:00Z">Dec 18, 1978</abbr>.
       </p>
-
+      <h3>Countdowns</h3>
       <p class="example">
-        David will be 25 in T<abbr class="countdown" title="2012-06-18T17:17:00Z">Jun 18, 1987</abbr>.
+      David will be 25 in T<abbr class="countdown" title="2012-06-18T17:17:00Z">Jun 18, 1987</abbr>. This page will alert you at the appropriate time. You should keep it open until that point. :)</p>
+      <p> 
+      This countdown will log a countdown in console during last 10 seconds: <abbr class="countdown_thresh 30_second_countdown"></abbr>.
+      </p>
+
+      <p>
+      Countups are also supported - counting up from page load:  <abbr class="countup loaded"></abbr>.
       </p>
 
       <h3>Why?</h3>
