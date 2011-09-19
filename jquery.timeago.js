@@ -1,5 +1,5 @@
 /*
- * timeago: a jQuery plugin, version: 0.9.3.dtime (2011-09-19)
+ * timeago: a jQuery plugin, version: 0.9.3.dtime2 (2011-09-19)
  * @requires jQuery v1.2.3 or later
  *
  * Timeago is a jQuery plugin that makes it easy to support automatically
@@ -31,6 +31,7 @@
       countupCutoff: false,
       fireThresholds: false,
       thresholds: [0],
+      showPlusMinus: true,
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
@@ -155,12 +156,12 @@
 
   function inCountdown(distance_seconds, settings){
     var clock = distanceClock(distance_seconds, settings);
-    return "-"+clock[0]+":"+clock[1]+":"+clock[2]+"";
+    return (settings.showPlusMinus ? "-" : "")+clock[0]+":"+clock[1]+":"+clock[2]+"";
   }
 
   function inCountup(distance_seconds, settings){
     var clock = distanceClock(distance_seconds, settings);
-    return "+"+clock[0]+":"+clock[1]+":"+clock[2]+"";
+    return (settings.showPlusMinus ? "+" : "")+clock[0]+":"+clock[1]+":"+clock[2]+"";
   }
 
 
